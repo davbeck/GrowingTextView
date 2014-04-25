@@ -160,26 +160,10 @@
 {
     if(n == 0 && maxHeight > 0) return; // the user specified a maxHeight themselves.
     
-    // Use internalTextView for height calculations, thanks to Gwynne <http://blog.darkrainfall.org/>
-    NSString *saveText = internalTextView.text, *newText = @"-";
-    
-    internalTextView.delegate = nil;
-    internalTextView.hidden = YES;
-    
-    for (int i = 1; i < n; ++i)
-        newText = [newText stringByAppendingString:@"\n|W|"];
-    
-    internalTextView.text = newText;
-    
-    maxHeight = [self measureHeight];
-    
-    internalTextView.text = saveText;
-    internalTextView.hidden = NO;
-    internalTextView.delegate = self;
+    maxNumberOfLines = n;
+    maxHeight = ceil(self.internalTextView.font.lineHeight * maxNumberOfLines);
     
     [self sizeToFit];
-    
-    maxNumberOfLines = n;
 }
 
 -(int)maxNumberOfLines
@@ -196,27 +180,11 @@
 -(void)setMinNumberOfLines:(int)m
 {
     if(m == 0 && minHeight > 0) return; // the user specified a minHeight themselves.
-
-	// Use internalTextView for height calculations, thanks to Gwynne <http://blog.darkrainfall.org/>
-    NSString *saveText = internalTextView.text, *newText = @"-";
-    
-    internalTextView.delegate = nil;
-    internalTextView.hidden = YES;
-    
-    for (int i = 1; i < m; ++i)
-        newText = [newText stringByAppendingString:@"\n|W|"];
-    
-    internalTextView.text = newText;
-    
-    minHeight = [self measureHeight];
-    
-    internalTextView.text = saveText;
-    internalTextView.hidden = NO;
-    internalTextView.delegate = self;
-    
-    [self sizeToFit];
     
     minNumberOfLines = m;
+    minHeight = ceil(self.internalTextView.font.lineHeight * minNumberOfLines);
+    
+    [self sizeToFit];
 }
 
 -(int)minNumberOfLines
